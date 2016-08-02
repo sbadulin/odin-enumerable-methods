@@ -49,9 +49,20 @@ module Enumerable
     flag_bool
   end
 
+  def my_any?
+    flag_bool = true
+    for e in self
+      if block_given?
+        flag_bool = false if e.nil? || e == false
+        (yield e) == true ? flag_bool = true : flag_bool = false
+      end
+    end
+    flag_bool
+  end
+
 end
 
-puts %w[cat dog].my_all? { |word| word.length >= 4 }
-puts %w[cat dog].all? { |word| word.length >= 4 }
-puts [nil, true, 99].all?
-puts [nil, true, 99].my_all?
+puts %w[cat dogs].my_any? { |word| word.length >= 4 }
+puts %w[cat dogs].any? { |word| word.length >= 4 }
+puts [nil, true, 99].any?
+puts [nil, true, 99].my_any?
