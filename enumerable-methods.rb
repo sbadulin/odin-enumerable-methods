@@ -139,11 +139,6 @@ module Enumerable
 
 end
 
-# p (5..10).my_inject { |sum, n| sum + n }            #=> 45
-p (5..10).my_inject(0) { |sum, n| sum + n }            #=> 45
-
-p (5..10).my_inject(1) { |product, n| product * n } #=> 151200
-longest = %w{ cat sheep bear }.my_inject do |memo, word|
-   memo.length > word.length ? memo : word
+def multiply_els(arr)
+  arr.my_inject {|acc, e| acc * e}
 end
-p longest                                        #=> "sheep"
