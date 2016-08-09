@@ -100,11 +100,17 @@ module Enumerable
       self.my_each { |e| arr_with_arg << e if e == args[0] }
       arr_with_arg.size
     end
-    
+
   end
 
   def my_map
-
+    if block_given?
+      arr_to_map = []
+      self.my_each { |e| arr_to_map << (yield e) }
+      arr_to_map
+    else
+      self.to_enum
+    end
   end
 
   def my_inject
@@ -113,7 +119,5 @@ module Enumerable
 
 end
 
-ary = [1, 2, 4, 2]
-p ary.my_count                  #=> 4
-p ary.my_count(2)               #=> 2
-p ary.my_count { |x| x%2 == 0 } #=> 3
+p (1..4).my_map { |i| i*i }      #=> [1, 4, 9, 16]
+p (1..4).my_map
