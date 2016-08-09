@@ -82,11 +82,38 @@ module Enumerable
     flag_bool
   end
 
+  def my_count (*args)
+
+    # If a block is given, counts the number of elements for which the block returns a true value
+    if block_given?
+      arr_with_block = []
+      self.my_each { |e| arr_with_block << e if (yield e) == true }
+      arr_with_block.size
+
+    # Returns the number of elements if no args and no block
+    elsif args.empty?
+      self.length
+
+    # If an argument is given, counts the number of elements
+    else
+      arr_with_arg = []
+      self.my_each { |e| arr_with_arg << e if e == args[0] }
+      arr_with_arg.size
+    end
+    
+  end
+
+  def my_map
+
+  end
+
+  def my_inject
+
+  end
+
 end
 
-puts %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
-puts %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
-puts [].my_none?                                           #=> true
-puts [nil].my_none?                                        #=> true
-puts [nil, false].my_none?                                 #=> true
-puts [nil, false, true].my_none?                           #=> false
+ary = [1, 2, 4, 2]
+p ary.my_count                  #=> 4
+p ary.my_count(2)               #=> 2
+p ary.my_count { |x| x%2 == 0 } #=> 3
