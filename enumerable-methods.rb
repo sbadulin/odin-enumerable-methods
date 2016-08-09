@@ -105,19 +105,45 @@ module Enumerable
 
   def my_map
     if block_given?
-      arr_to_map = []
-      self.my_each { |e| arr_to_map << (yield e) }
-      arr_to_map
+      mapped_arr = []
+      self.my_each { |e| mapped_arr << (yield e) }
+      mapped_arr
     else
       self.to_enum
     end
   end
 
-  def my_inject
+  def my_inject (*args)
+    # p self.methods.sort
+    arr = self.to_a
 
+    if block_given?
+      if args.empty?
+        acc = arr.first
+        for e in arr[1,arr.size]
+          acc = yield(acc, e)
+        end
+      else
+        acc = args[0]
+        for e in arr
+          acc = yield(acc, e)
+        end
+      end
+      # args.empty? ? acc = self.first : acc = args[0]
+
+    else
+      self.to_enum
+    end
+    acc
   end
 
 end
 
-p (1..4).my_map { |i| i*i }      #=> [1, 4, 9, 16]
-p (1..4).my_map
+# p (5..10).my_inject { |sum, n| sum + n }            #=> 45
+p (5..10).my_inject(0) { |sum, n| sum + n }            #=> 45
+
+p (5..10).my_inject(1) { |product, n| product * n } #=> 151200
+longest = %w{ cat sheep bear }.my_inject do |memo, word|
+   memo.length > word.length ? memo : word
+end
+p longest                                        #=> "sheep"
