@@ -103,10 +103,10 @@ module Enumerable
 
   end
 
-  def my_map
+  def my_map(&block)
     if block_given?
       mapped_arr = []
-      self.my_each { |e| mapped_arr << (yield e) }
+      self.my_each { |e| mapped_arr << block.call(e) }
       mapped_arr
     else
       self.to_enum
@@ -142,3 +142,7 @@ end
 def multiply_els(arr)
   arr.my_inject {|acc, e| acc * e}
 end
+
+pr = proc {|i| i*i }
+
+p (1..4).my_map(&pr) #{|i| i*i}    #=> [1, 4, 9, 16]
