@@ -144,5 +144,3 @@ def multiply_els(arr)
 end
 
 pr = proc {|i| i*i }
-
-p (1..4).my_map(&pr) #{|i| i*i}    #=> [1, 4, 9, 16]
